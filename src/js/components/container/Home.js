@@ -40,13 +40,20 @@ class Home extends Component {
     //Setting Cities to display
     getCitiesArray(){
         let cities = [
-            {cityId: "5263058", name: "Milwaukee"},
-            {cityId: "4887398", name: "Chicago"},
-            {cityId: "5037649", name: "Minneapolis"},
-            {cityId: "4684888", name: "Dallas"}
+            {cityId: "5263058", cityName: "Milwaukee", state: "WI"},
+            {cityId: "4887398", cityName: "Chicago", state: "IL"},
+            {cityId: "5037649", cityName: "Minneapolis",state:"MN"},
+            {cityId: "4684888", cityName: "Dallas", state:"TX"}
         ]
 
         return cities;
+    }
+
+    getBackgroundImage(){
+        let imagePath = null;
+        
+
+
     }
 
    
@@ -58,28 +65,28 @@ class Home extends Component {
         const isOnHomeView = this.state.isOnHomeView;
 
         // looping containers for each city
-        const CurrentWeatherContainer = cities.map((city, i) =>  
-            <div className="slds-box slds-col slds-p-around_medium" key={i} onClick={this.handleDetailWeatherClick.bind(this,city.cityId,city.name)}>          
+        const CurrentWeatherContainer = cities.map((city, i) => 
+            <div id={city.cityName} className="card currentWeatherCard" key={i} onClick={this.handleDetailWeatherClick.bind(this,city.cityId,city.cityName,city.state)}>          
                 <CurrentWeather                  
                     cityId= {city.cityId}
-                    cityName = {city.name}
+                    cityName = {city.cityName}
+                    cityState = {city.state}
                 />
             </div>
         );
         return( 
             
-           <div>
+           <div className="ViewingContainer container">
                {isOnHomeView ?(
-                <div className="slds-box">
-                   <div className="slds-grid slds-gutters slds-card">
+                   <div className="centered cards">
                        {CurrentWeatherContainer}
-                   </div>
-                   
-                 </div>
+                    </div>
                ) : (
-                <WeatherDetails
-                    cityId = {this.state.currentCityId}
-                />
+                <div className="WeatherDetailContainer">
+                        <WeatherDetails
+                            cityId = {this.state.currentCityId}
+                        />
+                </div>
                )}
               
            </div> 

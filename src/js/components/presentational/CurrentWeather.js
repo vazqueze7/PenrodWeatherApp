@@ -10,9 +10,9 @@ class CurrentWeather extends Component {
             isLoaded: false,
             cityId: props.cityId,
             cityName: props.cityName,
+            cityState: props.cityState,
             backgroundImg:"/content/images/" + props.cityName + ".jpg",
             currentWeatherApi:"http://api.openweathermap.org/data/2.5/weather?id="+ props.cityId + "&units=imperial&APPID=1f7728589dc72b573a66d57e97a01f08",
-            hourWeatherApi:"http://api.openweathermap.org/data/2.5/forecast?id="+ props.cityId + "&units=imperial&APPID=1f7728589dc72b573a66d57e97a01f08",
             iconImg:"http://openweathermap.org/img/w/",
             weather: null,
             coord: null,
@@ -55,24 +55,31 @@ class CurrentWeather extends Component {
 
     render(){
         const {error, isLoaded, weather, city, coord, main, wind, clouds} = this.state;  
-        const backgroundTemplate ={
-            //backgroundImage: "url('"+this.state.backgroundImg+"')",
-            //height: '100%'
-        };
+
+
+        
 
         if(error){
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded){
-            return <div>Loading...</div>
+            return <div className="demo-only">
+                    <div role="status" className="slds-spinner slds-spinner_medium">
+                    <span className="slds-assistive-text">Loading</span>
+                    <div className="slds-spinner__dot-a"></div>
+                    <div className="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
         } else {
             return (
-                <div style={backgroundTemplate} className="">
+                <div className="cardContainer">
                     {weather.map((w,i) =>
                     <div key={i}>
-                        <div className="slds-align_absolute-center cityName">{this.state.cityName}</div>
-                        <div className="slds-align_absolute-center"><span className="degrees">{this.state.main.temp}&deg;</span></div>
-                        <div  className="slds-align_absolute-center"><img src={this.state.iconImg + w.icon + ".png"}></img></div>
-                        <div className="slds-align_absolute-center">{w.description}</div>
+                        
+                        <div className="slds-align_absolute-center description"><img src={this.state.iconImg + w.icon + ".png"}></img> {w.main}</div>
+                        <div className="slds-align_absolute-center cityName">{this.state.cityName}, {this.state.cityState}</div>
+                        <div className="slds-align_absolute-center degrees">{Math.round(this.state.main.temp)}&deg;</div>
+                        <div>High: {this.state.main.temp_max} | Low: {this.state.main.temp_min} </div>
+
                     </div>
                     )}
                 </div>

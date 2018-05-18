@@ -9,25 +9,55 @@ class WeatherDeatils extends Component{
             error: null,
             isLoaded: false,
             cityId: this.props.cityId,
-            dailyWeatherApi: "http://api.openweathermap.org/data/2.5/forecast/daily?id="+ this.props.cityId + "&units=imperial&APPID=706e2491e7463d30ec4c8e322c72e8b2",
+            hourWeatherApi:"http://api.openweathermap.org/data/2.5/forecast?id="+ props.cityId + "&units=imperial&APPID=1f7728589dc72b573a66d57e97a01f08",
+            iconImg:"http://openweathermap.org/img/w/",
             city: null,
             count: null,
-            list: null
+            list: null,
+            fiveDayAdv: null
             
         }   
 
     }
 
+    getDayOfTheWeek(day){
+        var week = ["Sun","Mon","Tue","Wed","Thur","Fri","Sat"]
+
+        return week[day];
+
+    }
+
     componentDidMount(){
-        fetch(this.state.dailyWeatherApi)
+        fetch(this.state.hourWeatherApi)
             .then(res =>res.json())
             .then(
                 (result) => {
+                    let hoursList = [];
+                    let week = ["Sun","Mon","Tue","Wed","Thur","Fri","Sat"]
+                    let fiveDays = [];
+
+                    for(var x=0; x < result.cnt; x++){
+                        var dt = result.list[x].dt_txt;
+                        var dateDay = new Date(dt);
+                       
+                        var currentDay = new Date();
+                      
+
+
+                        if(dateDay.getUTCDay() < currentDay.getUTCDate() && dateDay.getHours() === 15){
+                            hoursList.push(result.list[x]);
+                            fiveDays.push(week[dateDay.getDay()]);
+
+                        }
+                        
+
+                    }
                     this.setState({
                         isLoaded: true,
                         city: result.city,
                         count: result.cnt,
-                        list: result.list
+                        list: hoursList,
+                        fiveDayAdv : fiveDays
                     })
                 }
             ),
@@ -40,34 +70,33 @@ class WeatherDeatils extends Component{
             }
     }
 
+
+
     render(){
-        const {error, isLoaded, city,count,list} = this.state;  
-        const backgroundTemplate ={
-            //backgroundImage: "url('"+this.state.backgroundImg+"')",
-            //height: '100%'    
-        };
+        const {error, isLoaded, city,count,list} = this.state; 
+        
+         
 
         if(error){
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded){
             return <div>Loading...</div>
         } else {
-            return 
-             {/*} <div style={backgroundTemplate} className="">
-                    {list.map((li,i) =>
-                    <div key={i}>
-                        <div className="slds-align_absolute-center"><span className="degrees">{this.state.city}&deg;</span></div>
-                        <div  className="slds-align_absolute-center"><img src={this.state.iconImg + w.icon + ".png"}></img></div>
-                        <div className="slds-align_absolute-center">{w.description}</div>
+            return( 
+                <div>
+                    <h2>Milwaukee</h2>
+                    <div className="slds-grid">
+                        {list.map((li,i) =>
+                        <div key={i} className="slds-col card weatherDetailCard">  
+                            <div className="cardContainer dayOfTheWeek">{this.state.fiveDayAdv[i]}</div>            
+                            <div className="slds-align_absolute-center description"><img src={this.state.iconImg + li.weather[0].icon + ".png"}></img>{li.weather[0].main}</div>
+                            <div className="slds-align_absolute-center degrees">{Math.round(li.main.temp)}&deg;</div>
+                        </div>
+                        )}
                     </div>
-                    )}
-                </div>
-            */}
-            <div>
-               hello     
-            </div>
-                
-            
+
+               </div> 
+            )
         }
     }
 }
