@@ -55,7 +55,6 @@ html{
     border-radius: 0px;
     border: none;
     flex: 0 1 calc(26% - 1em) !important;
- 
 }
 
 .weatherDetailCard .description{
@@ -63,7 +62,7 @@ html{
 }
 
 .weatherDetailCard .slds-align_absolute-center{
-    margin: 0px auto;
+    /* margin: 0px auto; */
 }
 
 
@@ -119,6 +118,26 @@ html{
     .degrees{
         font-size: 40px;
         font-weight: bold;
+    }
+
+    .slds-grid{
+        display: block;
+    }
+
+    .card{
+        padding: 10px;
+        height: auto;
+        display: block;
+    }
+
+    .card > div{
+        padding: 0;
+        display: inline-block !important;
+        /* float: left; */
+        padding: 0;
+        height: 100%;
+        padding-right: 13px;
+        position: relative;
     }
 }
 
