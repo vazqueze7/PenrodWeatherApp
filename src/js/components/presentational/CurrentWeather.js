@@ -20,6 +20,7 @@ class CurrentWeather extends Component {
             wind: null,
             clouds: null
         };
+        
 
     }
     
@@ -49,7 +50,7 @@ class CurrentWeather extends Component {
     }
 
 
-
+    
 
     
 

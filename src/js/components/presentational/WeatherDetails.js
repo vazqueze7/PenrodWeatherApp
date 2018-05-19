@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import ReactDom from "react-dom" 
-import style from "styled-components"
 
 class WeatherDeatils extends Component{
     constructor(props){
@@ -20,6 +19,7 @@ class WeatherDeatils extends Component{
 
     }
 
+    //returns list of days
     getDayOfTheWeek(day){
         var week = ["Sun","Mon","Tue","Wed","Thur","Fri","Sat"]
 
@@ -32,7 +32,9 @@ class WeatherDeatils extends Component{
             .then(res =>res.json())
             .then(
                 (result) => {
-                    let hoursList = [];
+
+                    //get day of the week
+                    let dayList = [];
                     let week = ["Sun","Mon","Tue","Wed","Thur","Fri","Sat"]
                     let fiveDays = [];
 
@@ -43,9 +45,9 @@ class WeatherDeatils extends Component{
                         var currentDay = new Date();
                       
 
-
+                        // add day to the array
                         if(dateDay.getUTCDay() < currentDay.getUTCDate() && dateDay.getHours() === 15){
-                            hoursList.push(result.list[x]);
+                            dayList.push(result.list[x]);
                             fiveDays.push(week[dateDay.getDay()]);
 
                         }
@@ -56,7 +58,7 @@ class WeatherDeatils extends Component{
                         isLoaded: true,
                         city: result.city,
                         count: result.cnt,
-                        list: hoursList,
+                        list: dayList,
                         fiveDayAdv : fiveDays
                     })
                 }
@@ -68,7 +70,9 @@ class WeatherDeatils extends Component{
                     error
                 })
             }
-    }
+    }   
+
+
 
 
 
@@ -80,14 +84,31 @@ class WeatherDeatils extends Component{
         if(error){
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded){
-            return <div>Loading...</div>
+            return <div className="demo-only">
+            <div role="status" className="slds-spinner slds-spinner_medium">
+            <span className="slds-assistive-text">Loading</span>
+            <div className="slds-spinner__dot-a"></div>
+            <div className="slds-spinner__dot-b"></div>
+            </div>
+        </div>
         } else {
             return( 
                 <div>
-                    <h2>Milwaukee</h2>
-                    <div className="slds-grid">
+                    <div className={"slds-page-header "+ city.name}>
+                        <div className="slds-media">
+                            <div className="slds-media__figure">
+                                <span className="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                                </span>
+                                </div>
+                                <div className="slds-media__body">
+                                <h1 className="slds-page-header__title slds-truncate slds-align-middle"  title={city.name}>{city.name}</h1>
+                                <p className="slds-text-body_small slds-line-height_reset"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="slds-grid"> 
                         {list.map((li,i) =>
-                        <div key={i} className="slds-col card weatherDetailCard">  
+                        <div key={i} className={"slds-col card weatherDetailCard " + city.name} >  
                             <div className="cardContainer dayOfTheWeek">{this.state.fiveDayAdv[i]}</div>            
                             <div className="slds-align_absolute-center description"><img src={this.state.iconImg + li.weather[0].icon + ".png"}></img>{li.weather[0].main}</div>
                             <div className="slds-align_absolute-center degrees">{Math.round(li.main.temp)}&deg;</div>

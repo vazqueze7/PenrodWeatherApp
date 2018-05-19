@@ -7,23 +7,27 @@ html{
     font-size: 55px;
     font-weight: bold;
 }
+
+.slds-page-header{
+    margin-top:10px;
+}
 .dayOfTheWeek{
     font-size: 20px;
 }
 
-#Milwaukee{
+.Milwaukee{
     background: radial-gradient(circle, #D7F9FF, #AFCBFF);
 }
 
-#Chicago{
+.Minneapolis{
     background: radial-gradient(circle, #C8E9A0, #6DD3CE);
 }
 
-#Dallas{
+.Dallas{
     background: radial-gradient(circle, #AF1B3F, #EFC69B);
 }
 
-#Minneapolis{
+.Chicago{
     background: radial-gradient(circle, #BFCBC2, #FFFFFF);
 }
 
@@ -107,11 +111,24 @@ html{
         flex: 0 1 calc(100% - 1em);
         height: 300px;
     }
+
+    .cardContainer {
+        padding-top: 15%;
+    }
+
+    .degrees{
+        font-size: 40px;
+        font-weight: bold;
+    }
 }
 
 @media screen and (max-width: 60em) and (min-width: 35em) {
     .card {
         flex: 0 1 calc(50% - 1em);
         height: 320px;
+    }
+
+    .cardContainer {
+        padding-top: 18%;
     }
 }
