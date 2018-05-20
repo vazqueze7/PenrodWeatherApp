@@ -73,16 +73,14 @@ class CurrentWeather extends Component {
         } else {
             return (
                 <div className="cardContainer">
-                    {weather.map((w,i) =>
-                    <div key={i}>
-                        
-                        <div className="slds-align_absolute-center description"><img src={this.state.iconImg + w.icon + ".png"}></img> {w.main}</div>
+                    <div>                       
+                        <div className="slds-align_absolute-center description"><img src={this.state.iconImg + this.state.weather[0].icon + ".png"}></img> {this.state.weather.main}</div>
                         <div className="slds-align_absolute-center cityName">{this.state.cityName}, {this.state.cityState}</div>
                         <div className="slds-align_absolute-center degrees">{Math.round(this.state.main.temp)}&deg;</div>
                         <div>High: {this.state.main.temp_max} | Low: {this.state.main.temp_min} </div>
 
                     </div>
-                    )}
+           
                 </div>
             )
         }
